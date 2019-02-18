@@ -1,4 +1,8 @@
+from collections import defaultdict
+
 # Complete the selection_sort() function below in class with your instructor
+
+
 def selection_sort(arr):
     # loop through n-1 elements
     for i in range(0, len(arr) - 1):
@@ -43,11 +47,29 @@ def bubble_sort(arr):
     return result
 
 
-print(bubble_sort([5, 3, 2, 2, 4, 6, 9]))
-
 # STRETCH: implement the Count Sort function below
 
 
 def count_sort(arr, maximum=-1):
-
-    return arr
+    max = maximum if maximum >= 0 else 0
+    count = defaultdict(int)
+    # build up dictionary of occurences
+    for num in arr:
+        if num < 0:
+            return "Error, negative numbers not allowed in Count Sort"
+        count[num] += 1
+        if num > max:
+            max = num
+    # convert values into placement positons
+    for i in range(1, max + 1):
+        count[i] = count[i - 1] + count[i]
+    # initialize result array
+    output = [None] * len(arr)
+    # loop over original array, and use count to determine position
+    # lower count position by 1 after each addition to keep it current
+    for i in range(len(arr) - 1, -1, -1):
+        num = arr[i]
+        pos = count[num] - 1
+        output[pos] = num
+        count[num] -= 1
+    return output
