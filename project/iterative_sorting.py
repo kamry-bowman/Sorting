@@ -18,8 +18,21 @@ def selection_sort(arr):
 
 # TO-DO: implement the Insertion Sort function below
 def insertion_sort(arr):
+    if not arr:
+        return arr
+    result = [arr[0]]
+    for i in range(1, len(arr)):
+        tmp = arr[i]
+        result.append(tmp)
+        for j in range(len(result) - 1, 0, -1):
+            if result[j] < result[j - 1]:
+                result[j], result[j - 1] = result[j - 1], result[j]
+            else:
+                break
+    return result
 
-    return arr
+
+print(insertion_sort([5, 3, 2, 2, 4, 6, 9]))
 
 
 # STRETCH: implement the Bubble Sort function below
