@@ -24,16 +24,13 @@ def selection_sort(arr):
 def insertion_sort(arr):
     if not arr:
         return arr
-    result = [arr[0]]
     for i in range(1, len(arr)):
-        tmp = arr[i]
-        result.append(tmp)
-        for j in range(len(result) - 1, 0, -1):
-            if result[j] < result[j - 1]:
-                result[j], result[j - 1] = result[j - 1], result[j]
-            else:
-                break
-    return result
+        j = i - 1
+        while j >= 0 and arr[i] < arr[j]:
+            arr[i], arr[j] = arr[j], arr[i]
+            i = j
+            j = i - 1
+    return arr
 
 
 # STRETCH: implement the Bubble Sort function below
@@ -124,7 +121,3 @@ def radix_sort(arr):
             del lengths[i]
         i += 1
     return result
-
-
-print(radix_sort([3, 57, 54, 1, 3, 28, 9, 7, 33, 4,
-                  2, 0, 32, 98, 31, 39, 19, 11, 321, 304, 288]))
