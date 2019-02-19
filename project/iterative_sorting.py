@@ -48,6 +48,15 @@ def bubble_sort(arr):
 
 
 # STRETCH: implement the Count Sort function below
+# Why use count sort?
+# Count sort is predictible in its sorting time. It requires two non-nested loops over n,
+# and one loop over the range in values to be sorted. This means it can be reasonably
+# efficient for sorting numbers that are very close together. But large ranges in numbers
+# will make it impractible. Apparently it is useful when combined with radix sort for this reason
+# as radix tends to cluster numbers within ranges.
+
+# It also doesn't benefit from mostly sorted lists, as it will need to go through the same number of steps
+# regardless. Some other sorting algorithms can take advantage of this, like insertion sort.
 
 
 def count_sort(arr, maximum=-1):
@@ -73,3 +82,51 @@ def count_sort(arr, maximum=-1):
         output[pos] = num
         count[num] -= 1
     return output
+
+
+def dict_count_sort(arr, k):
+    count = defaultdict(int)
+    # build up dictionary of occurences
+    for num, val in arr:
+        count[num] += 1
+    # convert values into placement positions
+    for i in range(1, k + 1):
+        count[i] = count[i - 1] + count[i]
+    # initialize result array
+    output = [None] * len(arr)
+    # loop over original array, and use count to determine position
+    # lower count position by 1 after each addition to keep it current
+    for i in range(len(arr) - 1, -1, -1):
+        num, val = arr[i]
+        pos = count[num] - 1
+        # print(pos)
+        output[pos] = val
+        count[num] -= 1
+        # print(output)
+    return output
+
+
+def radix_sort(arr):
+    lengths = defaultdict(list)
+    for i in arr:
+        str_val = str(i)
+        lengths[len(str_val)].append(str_val)
+
+    for length, equal_length_nums in lengths.items():
+        for radix in range(length - 1, -1, -1):
+            lengths[length] = dict_count_sort(
+                [(int(number[radix]), number) for number in equal_length_nums], 9)
+
+    result = []
+    i = 1
+    while lengths:
+        equal_length_nums = lengths[i]
+        if equal_length_nums:
+            result.extend(equal_length_nums)
+            del lengths[i]
+        i += 1
+    return result
+
+
+print(radix_sort([3, 57, 54, 1, 3, 28, 9, 7, 33, 4,
+                  2, 0, 32, 98, 31, 39, 19, 11, 321, 304, 288]))
