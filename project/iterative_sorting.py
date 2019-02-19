@@ -99,10 +99,8 @@ def dict_count_sort(arr, k):
     for i in range(len(arr) - 1, -1, -1):
         num, val = arr[i]
         pos = count[num] - 1
-        # print(pos)
         output[pos] = val
         count[num] -= 1
-        # print(output)
     return output
 
 
