@@ -48,48 +48,31 @@ def quick_sort(arr, low, high):
     if low >= high:
         return arr
     else:
-        pivot = (low + high) // 2
+        pivot_val = arr[(low + high) // 2]
         lo = low
         hi = high
+        partition = None
+
         # iterate over indexes to the left of pivot
-        while lo < pivot:
-            # continue through index as long as values are less than pivot value
-            if arr[lo] <= arr[pivot]:
+        while partition is None:
+            print(pivot_val, lo, hi, arr)
+            while arr[lo] < pivot_val:
                 lo += 1
-            # if left value is greater than pivot value, start decrementing right pointer
-            # looking for a matching inversion on the right side
-            if arr[lo] > arr[pivot]:
-                right_match = False
-                while hi > pivot and not right_match:
-                    if arr[hi] <= arr[pivot]:
-                        right_match = True
-                    else:
-                        hi -= 1
-                # if a matching inversion on right is found, then swap
-                if right_match:
-                    arr[lo], arr[hi] = arr[hi], arr[lo]
-                    lo += 1
-                    hi -= 1
-                # otherwise, swap to immediate left of pivot, and then swap with pivot
-                else:
-                    arr[lo], arr[pivot - 1] == arr[pivot - 1], arr[lo]
-                    arr[pivot - 1], arr[pivot] = arr[pivot], arr[pivot - 1]
-                    pivot -= 1
-        # iterate over indexes to the right of pivot, perform symmetric logic
-        while hi > pivot:
-            if arr[hi] >= arr[pivot]:
+
+            # or case handles infinite loops when left and right pointers have equal values
+            while arr[hi] > pivot_val or (arr[hi] == arr[lo] and hi - 1 > lo):
                 hi -= 1
-            if arr[hi] < arr[pivot]:
-                arr[hi], arr[pivot + 1] = arr[pivot + 1], arr[hi]
-                arr[pivot], arr[pivot + 1] = arr[pivot + 1], arr[pivot]
-                pivot += 1
+
+            if lo < hi and not (arr[hi] == arr[lo]):
+                arr[lo], arr[hi] = arr[hi], arr[lo]
+            else:
+                partition = lo
 
         # recur on left
-        print(low, pivot - 1)
-        quick_sort(arr, low, pivot - 1)
+        quick_sort(arr, low, partition - 1)
 
         # recur on right
-        quick_sort(arr, pivot + 1, high)
+        quick_sort(arr, partition + 1, high)
 
         return arr
 
