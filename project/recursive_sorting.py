@@ -76,6 +76,8 @@ def quick_sort(arr, low, high):
 
         return arr
 
+arr = [4,2,1,88,32,43,23,0,89, 9, 10]
+print(quick_sort([4,2,1,88,32,43,23,0,89, 9, 10], 0, len(arr) - 1))
 
 # STRETCH: implement the Timsort function below
 # hint: check out https://github.com/python/cpython/blob/master/Objects/listsort.txt
