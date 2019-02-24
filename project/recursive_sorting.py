@@ -32,14 +32,37 @@ def merge_sort(arr):
 
 # STRETCH: implement an in-place merge sort algorithm
 def merge_in_place(arr, start, mid, end):
-    # TO-DO
+    if start == mid and mid + 1 == end:
+        if arr[start] > arr[end]:
+            arr[start], arr[end] = arr[end], arr[start]
 
-    return arr
+    elif start == end:
+        return arr
+
+    else:
+        left_done = start >= mid
+        right_done = mid >= end
+        if not left_done:
+            merge_in_place(arr, start, (start + mid) // 2, mid)
+
+        if not right_done:
+            merge_in_place(arr, mid, (end + mid) // 2, end)
+
+        lp = start
+        rp = mid
+        while lp < mid and rp <= end:
+            if arr[lp] <= arr[rp]:
+                lp += 1
+            else:
+                for i in range(rp, lp, -1):
+                    arr[i], arr[i - 1] = arr[i - 1], arr[i]
+                lp += 1
+                rp += 1
+                mid += 1
 
 
 def merge_sort_in_place(arr, l, r):
-    # TO-DO
-
+    merge_in_place(arr, l, (l + r) // 2, r)
     return arr
 
 
@@ -75,6 +98,12 @@ def quick_sort(arr, low, high):
         quick_sort(arr, partition + 1, high)
 
         return arr
+
+
+arr = [4, 2, 1, 88, 32, 43, 23, 0, 89, 9, 10]
+# print(quick_sort([4, 2, 1, 88, 32, 43, 23, 0, 89, 9, 10], 0, len(arr) - 1))
+print(merge_sort_in_place(
+    [4, 2, 1, 88, 32, 43, 23, 0, 89, 9, 10], 0, len(arr) - 1))
 
 
 # STRETCH: implement the Timsort function below
